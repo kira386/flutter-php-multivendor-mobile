@@ -1,0 +1,3 @@
+<?php require_once __DIR__.'/../../app/bootstrap.php';$d=input();$role=$d['role']??'buyer';$name=trim($d['name']??'');$email=strtolower(trim($d['email']??''));$pw=$d['password']??'';
+if(!$name||!filter_var($email,FILTER_VALIDATE_EMAIL)||strlen($pw)<10||!in_array($role,['buyer','seller','driver'],true))out(['error'=>'Invalid fields'],422);
+try{$s=db()->prepare("INSERT INTO users(name,email,password_hash,role) VALUES(?,?,?,?)");$s->execute([$name,$email,password_hash($pw,PASSWORD_DEFAULT),$role]);out(['success'=>true,'id'=>(int)db()->lastInsertId()],201);}catch(PDOException $e){out(['error'=>'Email already used'],409);}

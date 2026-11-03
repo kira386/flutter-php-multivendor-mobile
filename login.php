@@ -1,0 +1,2 @@
+<?php require_once __DIR__.'/../../app/bootstrap.php';$d=input();$s=db()->prepare("SELECT * FROM users WHERE email=? AND active=1");$s->execute([strtolower(trim($d['email']??''))]);$u=$s->fetch();if(!$u||!password_verify($d['password']??'',$u['password_hash']))out(['error'=>'Invalid login'],401);
+$t=bin2hex(random_bytes(32));db()->prepare("INSERT INTO tokens(user_id,hash,expires_at) VALUES(?,?,DATE_ADD(NOW(),INTERVAL 7 DAY))")->execute([$u['id'],hash('sha256',$t)]);out(['token'=>$t,'user'=>['id'=>(int)$u['id'],'name'=>$u['name'],'role'=>$u['role']]]);

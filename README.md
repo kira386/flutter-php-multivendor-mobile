@@ -1,5 +1,3 @@
-# flutter-php-multivendor-mobile
-flutter-php multivendor mobile 
 # MarketGo: Flutter + PHP Multi-Vendor Mobile App
 
 Flutter/Dart client and PHP/MySQL REST backend for buyer, seller and driver workflows.
